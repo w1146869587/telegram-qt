@@ -6,6 +6,7 @@
 #include "ClientConnection.hpp"
 #include "Client.hpp"
 #include "ClientRpcLayer.hpp"
+#include "ClientRpcHelpLayer.hpp"
 #include "DataStorage.hpp"
 
 #include <QLoggingCategory>
@@ -50,7 +51,9 @@ PendingOperation *Backend::connectToServer()
         m_mainConnection->setAuthKey(QByteArray());
     }
     m_mainConnection->setServerRsaKey(m_settings->serverRsaKey());
-    return m_mainConnection->connectToDc();
+    PendingOperation *op = m_mainConnection->connectToDc();
+    connect(op, &PendingOperation::finished, this, &Backend::onConnectOperationFinished);
+    return op;
 }
 
 PendingAuthOperation *Backend::signIn()
@@ -126,6 +129,16 @@ PendingAuthOperation *Backend::signIn()
     return m_authOperation;
 }
 
+PendingOperation *Backend::getDcConfig()
+{
+    if (m_getDcConfigOperation) {
+        return m_getDcConfigOperation;
+    }
+    m_getDcConfigOperation = mainConnection()->rpcLayer()->help()->getConfig();
+    connect(m_getDcConfigOperation, &PendingOperation::finished, this, &Backend::onGetDcCondigurationFinished);
+    return m_getDcConfigOperation;
+}
+
 Connection *Backend::createConnection()
 {
     Connection *connection = new Connection(this);
@@ -194,6 +207,22 @@ void Backend::setMainConnection(Connection *connection)
             break;
         }
     });
+}
+
+void Backend::onConnectOperationFinished(PendingOperation *operation)
+{
+    if (!operation->isSucceeded()) {
+        return;
+    }
+    getDcConfig();
+}
+
+void Backend::onGetDcCondigurationFinished(PendingOperation *operation)
+{
+    Q_ASSERT(m_getDcConfigOperation == operation);
+
+    TLHelpConfigSimple result;
+    m_mainConnection->rpcLayer()->help()->processReply(m_getDcConfigOperation, &result);
 }
 
 } // Client namespace
