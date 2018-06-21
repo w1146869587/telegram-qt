@@ -24,6 +24,12 @@
 #include "CTelegramStream.hpp"
 #include <QtEndian>
 
+#define NETWORK_LOGGING
+
+#ifdef NETWORK_LOGGING
+QT_FORWARD_DECLARE_CLASS(QFile)
+#endif
+
 namespace Telegram {
 
 class BaseSendPackageHelper;
@@ -119,6 +125,10 @@ protected:
 
     qint32 m_deltaTime = 0;
 
+#ifdef NETWORK_LOGGING
+    QFile *getLogFile();
+    QFile *m_logFile = nullptr;
+#endif
 };
 
 } // Telegram
