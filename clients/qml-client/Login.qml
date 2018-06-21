@@ -40,7 +40,7 @@ Frame {
         target: signInOperation
         onAuthCodeRequired: loginStack.replace("login/EnterCode.qml")
         onPasswordRequired: loginStack.replace("login/EnterPassword.qml")
-        onFinished: console.log("Sign in finished:" + succeeded)
+        onFinished: console.log("Sign in finished.")
     }
 
     StackView {
