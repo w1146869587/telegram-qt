@@ -42,9 +42,16 @@ Telegram::Server::User *tryAddUser(Telegram::Server::LocalCluster *cluster,
     return u;
 }
 
+#include "RandomGenerator.hpp"
+
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
+
+    Telegram::DeterministicGenerator deterministic;
+    deterministic.setInitializationData(QByteArrayLiteral("server"));
+    Telegram::RandomGeneratorSetter generatorKeeper(&deterministic);
+
     Telegram::initialize();
 
     Telegram::DcConfiguration configuration;
