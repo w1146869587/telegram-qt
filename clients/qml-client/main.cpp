@@ -165,12 +165,18 @@ static QObject *theme_type_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 
 #include <QQuickStyle>
 
+#include "RandomGenerator.hpp"
+
 int main(int argc, char *argv[])
 {
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QGuiApplication app(argc, argv);
     QQuickStyle::setStyle("Material");
+
+    Telegram::DeterministicGenerator deterministic;
+    deterministic.setInitializationData(QByteArrayLiteral("client"));
+    Telegram::RandomGeneratorSetter generatorKeeper(&deterministic);
 
     QQmlApplicationEngine engine;
     qmlRegisterSingletonType<Theme>("TelegramQtTheme", 1, 0, "Theme", theme_type_provider);
