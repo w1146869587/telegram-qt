@@ -179,6 +179,8 @@ Connection *Backend::createConnection()
     connection->rpcLayer()->setAppInformation(m_appInformation);
 
     TcpTransport *transport = new TcpTransport(connection);
+    transport->setProxy(m_settings->proxy());
+
     switch (m_settings->preferedSessionType()) {
     case Settings::SessionType::Default:
         break;
