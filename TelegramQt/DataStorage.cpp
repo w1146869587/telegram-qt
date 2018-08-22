@@ -16,6 +16,7 @@
  */
 
 #include "DataStorage_p.hpp"
+#include "Debug_p.hpp"
 
 namespace Telegram {
 

@@ -6,6 +6,7 @@
 #include "ClientRpcLayer.hpp"
 #include "ClientRpcAuthLayer.hpp"
 #include "ClientRpcAccountLayer.hpp"
+#include "ClientRpcHelpLayer.hpp"
 #include "Utils.hpp"
 
 #include <QDebug>

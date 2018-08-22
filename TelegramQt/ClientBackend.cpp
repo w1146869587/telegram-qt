@@ -12,6 +12,9 @@
 #include <QLoggingCategory>
 #include <QTimer>
 
+#include "TLTypesDebug.hpp"
+#include "Debug_p.hpp"
+
 namespace Telegram {
 
 namespace Client {
@@ -223,6 +226,8 @@ void Backend::onGetDcCondigurationFinished(PendingOperation *operation)
 
     TLHelpConfigSimple result;
     m_mainConnection->rpcLayer()->help()->processReply(m_getDcConfigOperation, &result);
+    qDebug() << result.tlType;
+    qDebug() << result;
 }
 
 } // Client namespace

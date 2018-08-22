@@ -67,6 +67,10 @@ ApplicationWindow {
         }
     }
 
+    Telegram.InMemoryDataStorage {
+        id: dataStorage
+    }
+
     Telegram.AppInformation {
         id: appInfo
         appId: 14617
@@ -118,7 +122,7 @@ ApplicationWindow {
         applicationInformation: appInfo
         settings: options.localServer ? localSettings : settings
         readonly property bool hasAccount: accountHelper.accounts
-//        dataStorage: dataStorage
+        dataStorage: dataStorage
         accountStorage: accountStorage
 
         onSignedInChanged: {

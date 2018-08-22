@@ -51,7 +51,6 @@ signals:
 protected:
     Client *m_client;
     DeclarativeSettings *m_settings;
-    AccountStorage *m_accountStorage;
 };
 
 } // Client
