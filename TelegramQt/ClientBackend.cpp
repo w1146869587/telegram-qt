@@ -115,7 +115,7 @@ PendingAuthOperation *Backend::signIn()
         m_authOperation->setPhoneNumber(m_accountStorage->phoneNumber());
     }
 
-    if (!mainConnection()) {
+    if (!mainConnection() || (mainConnection()->status() != Connection::Status::Authenticated)) {
         m_authOperation->runAfter(connectToServer());
         return m_authOperation;
     }
