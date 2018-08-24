@@ -3,6 +3,7 @@
 #include "Utils.hpp"
 #include "Debug_p.hpp"
 #include "TelegramServerUser.hpp"
+#include "TLRpcDebug.hpp"
 #include "PendingOperation.hpp"
 #include "RpcProcessingContext.hpp"
 #include "RpcError.hpp"
@@ -243,6 +244,11 @@ bool RpcLayer::processDecryptedPackage(const QByteArray &decryptedData)
     }
 
     QByteArray payload = decryptedStream.readAll();
+
+    CTelegramStream innerStream(payload);
+    qWarning() << Q_FUNC_INFO << "Dump RPC";
+    dumpRpc(innerStream);
+
     const bool result = processRpcQuery(payload, messageId);
 
 #ifdef DEVELOPER_BUILD
