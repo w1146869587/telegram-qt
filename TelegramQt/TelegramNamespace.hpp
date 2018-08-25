@@ -244,11 +244,17 @@ enum class PeerPictureSize {
 
 struct DcOption
 {
-    DcOption() { }
+    DcOption() = default;
     DcOption(const QString &a, quint32 p, quint32 dcId = 0) : address(a), port(p), id(dcId) { }
+    bool operator==(const DcOption &option) const;
     QString address;
     quint32 port = 0;
     quint32 id = 0;
+};
+
+inline bool DcOption::operator==(const DcOption &option) const
+{
+    return (option.id == id) && (option.port == port) && (option.address == address);
 };
 
 class PasswordInfo
