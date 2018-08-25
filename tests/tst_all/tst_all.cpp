@@ -225,6 +225,8 @@ void tst_all::testClientConnection()
     Server::RemoteClientConnection *remoteClientConnection = *clientConnections.cbegin();
     QCOMPARE(remoteClientConnection->authId(), clientAuthId);
 
+    QCOMPARE(clientSettings.serverConfiguration(), cluster.serverConfiguration().dcOptions);
+
     // --- Sign in ---
     Client::PendingAuthOperation *signInOperation = client.signIn();
     QSignalSpy serverAuthCodeSpy(server, &TestServer::authCodeSent);
