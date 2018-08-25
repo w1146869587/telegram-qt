@@ -176,7 +176,7 @@ void tst_all::cleanupTestCase()
 void tst_all::testClientConnection_data()
 {
     QTest::addColumn<Telegram::Client::Settings::SessionType>("sessionType");
-    QTest::newRow("Abridged")   << Client::Settings::SessionType::Abridged;
+    //QTest::newRow("Abridged")   << Client::Settings::SessionType::Abridged;
     QTest::newRow("Obfuscated") << Client::Settings::SessionType::Obfuscated;
 }
 
